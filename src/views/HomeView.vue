@@ -3,20 +3,9 @@
     <h1 class="title">Alpaca Avatar Generator</h1>
     <main>
       <div class="left-content">
-        <div id="img-wrapper" class="img-size">
-          <img
-            class="accessories img-size"
-            src="../assets/alpaca/accessories/headphone.png"
-            alt="head"
-          />
-          <img
-            class="background img-size"
-            src="../assets/alpaca/backgrounds/darkblue70.png"
-            alt=""
-          />
-        </div>
+        <ImageOverlay :output="output" />
         <div class="button-wrapper">
-          <button class="ramdom-button">Ramdom</button>
+          <button class="random-button" @click="getRandomImg()">Random</button>
           <button class="download" @click="downloadImage">Download</button>
         </div>
       </div>
@@ -24,22 +13,28 @@
         <div class="part-wrapper">
           <h2>Choose Part</h2>
           <div class="option-wrapper">
-            <PartsButton
+            <button
               v-for="part in partList"
               :key="part"
-              :list="part"
-              @choose-part="choosePart"
-            />
+              class="option-button"
+              @click.stop.prevent="choosePart(part)"
+            >
+              {{ part }}
+            </button>
           </div>
         </div>
         <div class="style-wrapper">
           <h2>Style</h2>
           <div class="option-wrapper">
-            <StylesButton
+            <button
               v-for="style in styleList"
               :key="style"
-              :list="style"
-            />
+              class="option-button"
+              @click.stop.prevent="chooseStyle(style)"
+            >
+              {{ style }}
+            </button>
+            {{ output[0].src }}
           </div>
         </div>
       </div>
@@ -49,22 +44,21 @@
 
 <script>
 import domtoimage from "dom-to-image";
-import PartsButton from "../components/PartsButton.vue";
 import OptionList from "../assets/OptionList.js";
-import StylesButton from "../components/StyleButton.vue";
+import ImageOverlay from "../components/ImageOverlay.vue";
 
 export default {
   name: "HomeView",
   components: {
-    PartsButton: PartsButton,
-    StylesButton: StylesButton,
+    ImageOverlay: ImageOverlay,
   },
   data() {
     return {
       partList: [],
       styleList: [],
-      part: "",
+      part: "backgrounds",
       style: "",
+      output: [],
     };
   },
   methods: {
@@ -81,23 +75,63 @@ export default {
           console.error("oops, something went wrong!", error);
         });
     },
-    getpartList() {
+    getPartList() {
       for (let i = 0; i < OptionList.length; i++) {
         this.partList.push(OptionList[i].label);
       }
     },
-    getstyleList(part) {
+    getStyleList(part) {
       let findlist = OptionList.find((list) => list.label === part);
       this.styleList = findlist.items;
     },
     choosePart(part) {
-      console.log(part);
-      this.getstyleList(part);
+      this.getStyleList(part);
+      this.part = part;
+    },
+    chooseStyle(newStyle) {
+      this.style = newStyle;
+      this.output = this.output.map((list) => {
+        if (list.part === this.part) {
+          list.style = newStyle;
+          return list;
+        } else {
+          return list;
+        }
+      });
+      // this.updateImgSrc();
+    },
+    getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    },
+    // updateImgSrc() {
+    //   for (let i = 0; i < this.output.length; i++) {
+    //     this.output[
+    //       i
+    //     ].src = require(`../assets/alpaca/${this.output[i].part}/${this.output[i].style}.png`);
+    //   }
+    // },
+    initialImg() {
+      for (let i = 0; i < OptionList.length; i++) {
+        let random = this.getRandomInt(OptionList[i].items.length);
+        this.output.push({
+          part: OptionList[i].label,
+          style: OptionList[i].items[random],
+        });
+      }
+      // this.updateImgSrc();
+    },
+    getRandomImg() {
+      for (let i = 0; i < this.output.length; i++) {
+        let random = this.getRandomInt(OptionList[i].items.length);
+        this.output[i].style = OptionList[i].items[random];
+      }
+      // this.updateImgSrc();
     },
   },
   created() {
-    this.getpartList();
-    this.getstyleList("backgrounds");
+    this.getPartList();
+    this.getStyleList(this.part);
+    this.initialImg();
   },
 };
 </script>
@@ -111,21 +145,9 @@ main {
   text-align: center;
 }
 
-#img-wrapper {
-  position: relative;
-}
-.img-size {
-  /* 用高寬設定 輸出圖檔的尺寸 */
-  width: 500px;
-  height: 500px;
-}
-
-.background {
-  position: absolute;
-  z-index: -1;
-}
-.accessories {
-  position: absolute;
-  z-index: 2;
+.option-button {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  margin: 0 50px;
 }
 </style>

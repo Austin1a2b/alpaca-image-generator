@@ -1,4 +1,3 @@
-
 const alpacaParts = [
   {
     label: 'backgrounds',
@@ -28,7 +27,6 @@ const alpacaParts = [
     items: [
       'headphone',
       'flower',
-      'earings',
       'glasses',
     ]
   },
