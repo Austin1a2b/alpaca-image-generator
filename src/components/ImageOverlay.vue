@@ -1,16 +1,14 @@
 <template>
   <div id="img-wrapper" class="img-size">
-    <button @click="updateImgSrc">test ttttttt</button>
-    <template v-for="info in informations">
+    <template v-for="(info, index) in output">
       <img
         :key="info.part"
         :class="info.part"
         class="img-size avatar"
-        :src="info.src"
+        :src="getImgSrc(index)"
       />
     </template>
     <img class="img-size avatar nose" src="../assets/alpaca/nose.png" />
-    <div></div>
   </div>
 </template> 
 
@@ -21,33 +19,9 @@ export default {
       type: Array,
     },
   },
-  data() {
-    return {
-      informations: [],
-    };
-  },
-  created() {
-    this.informations = this.output;
-    this.updateImgSrc();
-  },
   methods: {
-    updateImgSrc() {
-      for (let i = 0; i < this.informations.length; i++) {
-        this.informations[
-          i
-        ].src = require(`../assets/alpaca/${this.informations[i].part}/${this.informations[i].style}.png`);
-      }
-      console.log(this.informations[0].src);
-    },
-  },
-  watch: {
-    output: {
-      deep: true,
-      handler: function (newValue) {
-        console.log("偵測變化");
-        this.informations = newValue;
-        // this.updateImgSrc();
-      },
+    getImgSrc(index) {
+      return require(`../assets/alpaca/${this.output[index].part}/${this.output[index].style}.png`);
     },
   },
 };

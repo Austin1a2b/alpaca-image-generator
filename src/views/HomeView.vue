@@ -34,7 +34,6 @@
             >
               {{ style }}
             </button>
-            {{ output[0].src }}
           </div>
         </div>
       </div>
@@ -72,7 +71,7 @@ export default {
           link.click();
         })
         .catch(function (error) {
-          console.error("oops, something went wrong!", error);
+          console.error("downloadImage function have something wrong!", error);
         });
     },
     getPartList() {
@@ -98,18 +97,10 @@ export default {
           return list;
         }
       });
-      // this.updateImgSrc();
     },
     getRandomInt(max) {
       return Math.floor(Math.random() * max);
     },
-    // updateImgSrc() {
-    //   for (let i = 0; i < this.output.length; i++) {
-    //     this.output[
-    //       i
-    //     ].src = require(`../assets/alpaca/${this.output[i].part}/${this.output[i].style}.png`);
-    //   }
-    // },
     initialImg() {
       for (let i = 0; i < OptionList.length; i++) {
         let random = this.getRandomInt(OptionList[i].items.length);
@@ -118,14 +109,12 @@ export default {
           style: OptionList[i].items[random],
         });
       }
-      // this.updateImgSrc();
     },
     getRandomImg() {
       for (let i = 0; i < this.output.length; i++) {
         let random = this.getRandomInt(OptionList[i].items.length);
         this.output[i].style = OptionList[i].items[random];
       }
-      // this.updateImgSrc();
     },
   },
   created() {
