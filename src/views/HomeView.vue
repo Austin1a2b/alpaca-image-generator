@@ -6,7 +6,7 @@
         <ImageOverlay :output="output" />
         <div class="button-wrapper">
           <button class="random-button" @click="getRandomImg()">Random</button>
-          <DownloadButton class="download" />
+          <DownloadButton class="download-button" />
         </div>
       </div>
       <div class="right-content">
@@ -137,16 +137,6 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  text-align: center;
-}
-
-.option-button {
-  /* margin: 5px 50px; */
-  width: 100px;
-  height: 40px;
-}
-
 @media screen and (max-width: 800px) {
   main {
     margin: 0 20px;
@@ -158,7 +148,7 @@ export default {
   }
   .option-wrapper {
     display: grid;
-    grid-template-columns: 150px 150px 150px;
+    grid-template-columns: 120px 120px 120px;
     grid-auto-flow: row;
     grid-auto-rows: 50px;
     margin: 0 0 0 -35px;
@@ -198,9 +188,39 @@ export default {
     grid-auto-rows: 50px;
   }
 }
+.title {
+  text-align: center;
+}
+
+.option-button {
+  width: 100px;
+  height: 40px;
+}
+
+button {
+  color: black;
+  background-color: #b9e4e3;
+  border: 2px solid #a4a4a4;
+  border-radius: 7px;
+  font-size: 14px;
+  box-shadow: 1px 3px 1px #ddd;
+}
 
 .is-chosen {
-  color: red;
-  background-color: blue;
+  color: white;
+  background-color: rgb(66, 93, 202);
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 270px;
+  margin: 20px auto;
+}
+
+.random-button,
+.download-button {
+  width: 80px;
+  height: 30px;
 }
 </style>
