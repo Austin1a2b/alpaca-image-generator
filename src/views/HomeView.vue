@@ -6,7 +6,7 @@
         <ImageOverlay :output="output" />
         <div class="button-wrapper">
           <button class="random-button" @click="getRandomImg()">Random</button>
-          <button class="download" @click="downloadImage">Download</button>
+          <DownloadButton class="download" />
         </div>
       </div>
       <div class="right-content">
@@ -17,6 +17,7 @@
               v-for="part in partList"
               :key="part"
               class="option-button"
+              :class="{ 'is-chosen': part === usePart }"
               @click.stop.prevent="choosePart(part)"
             >
               {{ part }}
@@ -30,6 +31,7 @@
               v-for="style in styleList"
               :key="style"
               class="option-button"
+              :class="{ 'is-chosen': style === useStyle }"
               @click.stop.prevent="chooseStyle(style)"
             >
               {{ style }}
@@ -45,18 +47,20 @@
 import domtoimage from "dom-to-image";
 import OptionList from "../assets/OptionList.js";
 import ImageOverlay from "../components/ImageOverlay.vue";
+import DownloadButton from "../components/DownloadButton.vue";
 
 export default {
   name: "HomeView",
   components: {
     ImageOverlay: ImageOverlay,
+    DownloadButton: DownloadButton,
   },
   data() {
     return {
       partList: [],
       styleList: [],
-      part: "backgrounds",
-      style: "",
+      usePart: "backgrounds",
+      useStyle: "",
       output: [],
     };
   },
@@ -85,18 +89,24 @@ export default {
     },
     choosePart(part) {
       this.getStyleList(part);
-      this.part = part;
+      this.usePart = part;
+      this.getNowStyle(part);
     },
     chooseStyle(newStyle) {
-      this.style = newStyle;
+      this.useStyle = newStyle;
       this.output = this.output.map((list) => {
-        if (list.part === this.part) {
+        if (list.part === this.usePart) {
           list.style = newStyle;
           return list;
         } else {
           return list;
         }
       });
+    },
+    getNowStyle(usePart) {
+      this.useStyle = this.output.find((list) => {
+        return list.part === usePart;
+      }).style;
     },
     getRandomInt(max) {
       return Math.floor(Math.random() * max);
@@ -119,24 +129,78 @@ export default {
   },
   created() {
     this.getPartList();
-    this.getStyleList(this.part);
+    this.getStyleList(this.usePart);
     this.initialImg();
+    this.getNowStyle(this.usePart);
   },
 };
 </script>
 
 <style scoped>
-main {
-  display: flex;
-}
-
 .title {
   text-align: center;
 }
 
 .option-button {
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  margin: 0 50px;
+  /* margin: 5px 50px; */
+  width: 100px;
+  height: 40px;
+}
+
+@media screen and (max-width: 800px) {
+  main {
+    margin: 0 20px;
+  }
+  .left-content,
+  .right-content {
+    margin: 30px auto;
+    width: 300px;
+  }
+  .option-wrapper {
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+    grid-auto-flow: row;
+    grid-auto-rows: 50px;
+    margin: 0 0 0 -35px;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1000px) {
+  main {
+    display: flex;
+    margin: 0 35px;
+  }
+  .right-content {
+    margin: 0 0 0 50px;
+  }
+  .option-wrapper {
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+    grid-auto-flow: row;
+    grid-auto-rows: 50px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  main {
+    display: flex;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 auto;
+  }
+  .right-content {
+    margin: 0 0 0 100px;
+  }
+  .option-wrapper {
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+    grid-auto-flow: row;
+    grid-auto-rows: 50px;
+  }
+}
+
+.is-chosen {
+  color: red;
+  background-color: blue;
 }
 </style>

@@ -32,10 +32,25 @@ export default {
   position: relative;
 }
 
-.img-size {
-  /* 用高寬設定 輸出圖檔的尺寸 */
-  width: 500px;
-  height: 500px;
+@media screen and (max-width: 900px) {
+  .img-size {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1000px) {
+  .img-size {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .img-size {
+    width: 450px;
+    height: 450px;
+  }
 }
 
 .avatar {
