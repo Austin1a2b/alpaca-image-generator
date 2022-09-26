@@ -6,5 +6,3 @@ module.exports = defineConfig({
     ? '/alpaca-image-generator/'           //這邊是 repo 專案名稱
     : '/'                          //根目錄
 })
-
-vue.config.js

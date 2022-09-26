@@ -223,4 +223,9 @@ button {
   width: 80px;
   height: 30px;
 }
+
+.option-button:hover {
+  color: yellow;
+  background-color: rgba(60, 62, 12, 0.822);
+}
 </style>
