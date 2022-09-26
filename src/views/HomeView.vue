@@ -165,7 +165,7 @@ export default {
   }
   .option-wrapper {
     display: grid;
-    grid-template-columns: 150px 150px 150px;
+    grid-template-columns: 140px 140px 100px;
     grid-auto-flow: row;
     grid-auto-rows: 50px;
   }
@@ -174,16 +174,15 @@ export default {
 @media screen and (min-width: 1000px) {
   main {
     display: flex;
-    width: 1000px;
+    width: 900px;
     margin: 0 auto;
-    padding: 0 auto;
   }
   .right-content {
-    margin: 0 0 0 100px;
+    margin: 0 0 0 70px;
   }
   .option-wrapper {
     display: grid;
-    grid-template-columns: 150px 150px 150px;
+    grid-template-columns: 150px 150px 100px;
     grid-auto-flow: row;
     grid-auto-rows: 50px;
   }
